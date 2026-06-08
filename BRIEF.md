@@ -2,6 +2,8 @@
 
 **Time:** ~2 hours of focused work, in one sitting. Note when you start and stop — we trust you.
 
+> **Candidate note (Irfan Hardiyanto):** Started 2026-06-08 11:36 (+07:00), stopped 2026-06-08 17:35 (+07:00) — see commit history. The core build was a focused ~2-hour block; the remainder of the window covered deploy, verification against the live endpoint, and writing up DECISIONS.md / the AI session export.
+
 ## Context
 
 Vouch runs front desks for small hotels — including overnight. When our night shift ends at 7am, the morning team needs to know exactly what happened and, more importantly, **what they need to act on first.** Today we assemble these handovers manually and the quality is inconsistent. We want a service that does it automatically and reliably, across many hotels, every night.
