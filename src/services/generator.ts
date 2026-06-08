@@ -121,7 +121,7 @@ STRICT RULES — violations invalidate the handover:
 6. Preserve the "reasoning" field from reconciler data where provided — it is audit evidence.
 
 SECTION DEFINITIONS:
-- actNow: Urgent or time-sensitive — requires action before 9am today. Severity "urgent" items (deposit+checkout, passport compliance) belong here.
+- actNow: Urgent or time-sensitive — requires action before 9am today. Any item with severity "urgent" (deposit+checkout, passport compliance, safety hazard, guest valuables trapped) belongs here.
 - pending: Follow-up needed today but not immediately critical.
 - fyi: Awareness only — no action needed from morning manager.
 - flagged: Incomplete data, contradictions, needs_verification, or suspicious events.

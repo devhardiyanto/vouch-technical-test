@@ -227,6 +227,27 @@ assert(
   `found in stillOpen with reasoning: ${noShow312?.reasoning}`
 );
 
+// 5b. Safe-box Rm 208 → stillOpen + urgent (passport/cash trapped, early checkout)
+const safe208 = findIssue(result.stillOpen, '208:maintenance');
+assert(
+  'Safe-box Rm 208 → stillOpen',
+  safe208 !== undefined,
+  `actual stillOpen keys: ${issueKeys(result.stillOpen).join(', ')}`
+);
+assert(
+  'Safe-box Rm 208 → severity urgent (trapped valuables)',
+  safe208?.severity === 'urgent',
+  `got severity: ${safe208?.severity}`
+);
+
+// 5c. Aircon Rm 112 (maintenance) must NOT be escalated urgent — guards against over-fire
+const aircon112 = findIssue(result.stillOpen, '112:maintenance');
+assert(
+  'Aircon Rm 112 → NOT urgent (no safety trigger)',
+  aircon112?.severity === undefined,
+  `got severity: ${aircon112?.severity}`
+);
+
 // 6. Room 205 → flagged (needs_verification)
 const flagged205 = result.flagged.filter((e) => e.room === '205');
 assert(

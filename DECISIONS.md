@@ -15,7 +15,7 @@ Why this service is built the way it is. Read like a 7am handover: **trust over 
 - Issues are threaded by **`room + type`** across shifts, then classified vs the target morning:
   `stillOpen` (carried, unresolved) · `newlyResolved` (closed this shift) · `newTonight` (first seen).
 - This is reconciliation, **not re-reporting**: a carried issue keeps its original open-date instead of re-appearing as noise.
-- Escalation is data-driven: unresolved deposit at checkout, and passport compliance past its 48h window, are marked **urgent**.
+- Escalation is data-driven: unresolved deposit at checkout, passport compliance past its 48h window, and safety risks (guest valuables trapped in a stuck safe, physical hazards) are marked **urgent**. Patterns are high-precision on purpose — medical keywords are excluded because awareness logs like "declined ambulance, said she was okay" would over-fire.
 
 ## Grounding (the part that matters most)
 - Every `HandoverItem.sourceIds` is **mandatory** — no claim ships without citing the event IDs behind it; unsourced items are dropped.

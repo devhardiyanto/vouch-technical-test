@@ -73,6 +73,23 @@ function isCheckoutUrgent(events: NormalizedEvent[]): boolean {
   );
 }
 
+// ── Safety / security urgency ───────────────────────────────────────────────
+// High-precision only: guest valuables trapped in a stuck safe, or a physical
+// hazard. Deliberately NO medical keywords — evt_0016 ("declined ambulance, said
+// she was okay") proves those over-fire on non-urgent awareness logs.
+
+const SAFE_STUCK_PATTERN =
+  /\b(safe|safe[\s-]?box|locker|deposit\s+box)\b[^.]*\b(jam|stuck|won'?t\s+open|can'?t\s+open|cannot\s+open|locked\s+in|fail|broken)/i;
+const VALUABLES_PATTERN = /\b(passport|cash|money|valuables?|documents?|wallet)\b/i;
+const HAZARD_PATTERN = /\b(fire|gas\s*leak|burst\s+pipe|flood(ing)?|electrical\s+fault)\b/i;
+
+function safetyUrgentEvent(events: NormalizedEvent[]): NormalizedEvent | undefined {
+  return events.find((e) => {
+    const d = e.description;
+    return (SAFE_STUCK_PATTERN.test(d) && VALUABLES_PATTERN.test(d)) || HAZARD_PATTERN.test(d);
+  });
+}
+
 // ── Extended ReconciledIssue with escalation fields ───────────────────────────
 
 export interface EscalatedIssue extends ReconciledIssue {
@@ -229,6 +246,17 @@ export function reconcile(
       issue.severity = 'urgent';
       issue.escalationReason =
         'Deposit unresolved and guest is checking out imminently. Must be settled before departure.';
+    }
+
+    // Trapped valuables or physical hazard: urgent whether new or carried.
+    if (classification === 'stillOpen' || classification === 'newTonight') {
+      const hazardEvent = safetyUrgentEvent(allRelevant);
+      if (hazardEvent) {
+        issue.severity = 'urgent';
+        issue.escalationReason =
+          'Safety/security risk — physical hazard or guest valuables trapped; needs immediate attention. ' +
+          `Source: ${hazardEvent.id}.`;
+      }
     }
 
     switch (classification) {
